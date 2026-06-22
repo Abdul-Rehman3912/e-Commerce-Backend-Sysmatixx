@@ -22,7 +22,7 @@ app.use(
 
 app.use(express.urlencoded({ extended: true }));
 
-const port = process.env.PORT;
+const port = process.env.PORT || 5001;
 app.use("/api", routes);
 app.use("/api/payment", paymentRoutes);
 
