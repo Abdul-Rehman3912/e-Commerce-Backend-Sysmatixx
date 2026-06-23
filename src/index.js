@@ -16,12 +16,18 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://e-commerce-frontend-sysmatixx.vercel.app"
+  "https://e-commerce-frontend-sysmatixx-mujm.vercel.app" 
 ];
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true, 
   })
 );
