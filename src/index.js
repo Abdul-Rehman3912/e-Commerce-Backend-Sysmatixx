@@ -14,22 +14,14 @@ app.use("/api/payment/webhook", express.raw({ type: "application/json" }));
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://e-commerce-frontend-sysmatixx-mujm.vercel.app" 
-];
+// "http://localhost:5173",
+// "https://e-commerce-frontend-sysmatixx-mujm.vercel.app"
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true, 
-  })
+    origin: "https://e-commerce-frontend-sysmatixx-mujm.vercel.app",
+    credentials: true,
+  }),
 );
 
 app.use(express.urlencoded({ extended: true }));
