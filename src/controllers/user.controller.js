@@ -10,9 +10,9 @@ import {
 } from "../utils/response.js";
 
 export const signUp = async (req, res) => {
-  const { fullName, email, password, role } = req.body;
+  const { fullName, email, password } = req.body;
   try {
-    if (!email || !fullName || !password  || !role ) {
+    if (!email || !fullName || !password ) {
       return badRequestErrorResponse(res, messages.validationError);
     }
     const emailExist = await User.findOne({ email });
@@ -29,8 +29,7 @@ export const signUp = async (req, res) => {
     const newUser = new User({
       email,
       fullName,
-      password: hashedpassword,
-      role
+      password: hashedpassword
     });
     if (newUser) {
       generateToken(newUser._id, res);
@@ -39,7 +38,6 @@ export const signUp = async (req, res) => {
         _id: newUser._id,
         fullName: newUser.fullName,
         email: newUser.email,
-        role: user.role,
       });
     }
   } catch (error) {
@@ -71,7 +69,6 @@ export const login = async (req, res) => {
       _id: user._id,
       fullName: user.fullName,
       email: user.email,
-      role: user.role
     });
   } catch (error) {
     console.log("Error in logIn", error);

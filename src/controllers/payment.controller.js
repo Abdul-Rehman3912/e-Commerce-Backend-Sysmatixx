@@ -3,14 +3,15 @@ import Order from '../models/order.model.js';
 
 export const createCheckoutSession = async (req, res) => {
   try {
-    const { products, shippingAddress, userId } = req.body;
+    const { products, shippingAddress, userId, user } = req.body;
+    const resolvedUserId = userId || user;
 
     const totalAmount = products.reduce((total, item) => {
       return total + (item.price * item.quantity);
     }, 0);
 
     const order = new Order({
-      user: userId,
+      user: resolvedUserId,
       products: products.map(item => ({
         product: item._id,
         title: item.title,
@@ -45,7 +46,7 @@ export const createCheckoutSession = async (req, res) => {
       cancel_url: `${process.env.CLIENT_URL}/payment-cancel`,
       metadata: {
         orderId: order._id.toString(),
-        userId: userId
+        userId: resolvedUserId ? resolvedUserId.toString() : ''
       },
     });
 
